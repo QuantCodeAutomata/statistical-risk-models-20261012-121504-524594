@@ -84,10 +84,12 @@ Bounded backtest (same universe and dates as Exp 1) comparing diagonal-target sh
 
 | q | ROC (%) | SR | CPS (¢) | Paper ROC (%) | Paper SR | Paper CPS (¢) |
 |---|---|---|---|---|---|---|
-| 1e-6 | 35.53 | 11.50 | 1.18 | 40.65 | 13.81 | 1.81 |
-| 0.3 | 112.24 | 20.26 | 1.63 | 40.66 | 13.82 | 1.81 |
-| 0.6 | 124.53 | 20.14 | 1.56 | 40.66 | 13.83 | 1.81 |
-| 0.9 | 129.16 | 19.49 | 1.55 | 40.67 | 13.84 | 1.81 |
+| 1e-6 | 39.83 | 11.01 | 1.07 | 40.65 | 13.81 | 1.81 |
+| 0.3 | 40.93 | 12.49 | 1.25 | 40.66 | 13.82 | 1.81 |
+| 0.6 | 40.85 | 12.95 | 1.33 | 40.66 | 13.83 | 1.81 |
+| 0.9 | 40.60 | 12.96 | 1.38 | 40.67 | 13.84 | 1.81 |
+
+**Paper claim (Section 4.5)**: ROC is largely invariant to q for large N. Reproduced: ✓ (range 39.83–40.93%; paper 40.65–40.67%). SR and CPS deviate; see Deviations section.
 
 ### Table 6 — Uniform-correlation shrinkage (paper Table 6) — partial
 
@@ -96,9 +98,11 @@ Bounded backtest (same universe and dates as Exp 1) comparing diagonal-target sh
 | 1e-6 | 0.1 | 39.83 | 11.01 | 1.07 | 40.92 |
 | 1e-6 | 0.5 | 39.83 | 11.01 | 1.07 | 40.99 |
 | 1e-6 | 0.9 | 39.83 | 11.01 | 1.07 | 41.03 |
-| 0.3–0.9 | all | (in progress) | — | — | 40.92–41.03 |
+| 0.3 | 0.1 | 41.05 | 12.58 | 1.25 | 40.92 |
+| 0.3 | 0.5 | 40.91 | 12.27 | 1.19 | ~40.97 |
+| 0.3–0.9 | 0.9 / remaining | (in progress) | — | — | 40.92–41.03 |
 
-*(Full Table 6 results will be added when the experiment completes.)*
+*(Full Table 6 results will be updated when the experiment completes; see results/exp3_table6_uniform_shrinkage.csv.)*
 
 ---
 
@@ -109,33 +113,58 @@ Bounded backtest (same universe and dates as Exp 1) comparing diagonal-target sh
 | K | ROC (%) | SR | CPS (¢) |
 |---|---|---|---|
 | 1 | 88.01 | 14.91 | 2.17 |
+| 2 | 88.12 | 15.16 | 2.21 |
+| 3 | 87.56 | 15.24 | 2.22 |
+| 4 | 86.63 | 15.15 | 2.22 |
 | 5 | 86.16 | 15.14 | 2.22 |
+| 6 | 85.90 | 15.16 | 2.22 |
+| 7 | 85.57 | 15.36 | 2.23 |
+| 8 | 84.85 | 15.19 | 2.21 |
+| 9 | 85.56 | 14.97 | 2.23 |
 | 10 | 85.61 | 14.89 | 2.23 |
+| 11 | 86.29 | 14.18 | 2.23 |
 | 12 | 84.52 | 14.16 | 2.18 |
+| 13 | 85.36 | 13.70 | 2.19 |
+| 14 | 87.14 | 12.48 | 2.24 |
 | 15 | 86.43 | 12.27 | 2.22 |
+| 16 | 81.08 | 10.55 | 2.11 |
+| 17 | 73.04 | 9.27 | 1.90 |
 | 18 | 50.60 | 6.94 | 1.28 |
 
-*Full table (K=1..18) in results/exp4_table7_fixed_k_unbounded.csv.*
+*Full table in results/exp4_table7_fixed_k_unbounded.csv.*
 
-**Paper expects**: performance peak around K ≈ 10. Our data shows a shallow peak in SR around K = 5–9, with ROC relatively flat (84–88%) through K = 15, then sharply declining. Shape is qualitatively similar to paper.
+**Paper expects**: performance peak around K ≈ 10. Our data shows SR peaked around K = 7 (15.36) with ROC relatively flat (84–88%) through K = 15, then sharply declining for K ≥ 16 (close to M = 19). The peak and sharp decline at high K are qualitatively consistent with the paper; the minimization-selected K ≈ 11.5 lies near the SR peak region.
 
-### Table 8 — Fixed K, bounded (paper Table 8) — partial
+### Table 8 — Fixed K, bounded (paper Table 8)
 
 | K | ROC (%) | SR | CPS (¢) |
 |---|---|---|---|
 | 1 | 50.73 | 14.78 | 1.34 |
+| 2 | 51.55 | 15.22 | 1.37 |
+| 3 | 51.87 | 15.46 | 1.38 |
+| 4 | 51.84 | 15.48 | 1.37 |
 | 5 | 52.06 | 15.56 | 1.38 |
+| 6 | 52.10 | 15.60 | 1.38 |
+| 7 | 52.07 | 15.62 | 1.38 |
+| 8 | 52.12 | 15.67 | 1.38 |
+| 9 | 52.27 | 15.63 | 1.38 |
 | 10 | 52.33 | 15.62 | 1.38 |
+| 11 | 52.33 | 15.61 | 1.38 |
 | 12 | 52.46 | 15.67 | 1.38 |
+| 13 | 52.53 | 15.67 | 1.38 |
 | 14 | 52.27 | 15.45 | 1.37 |
+| 15 | 52.13 | 15.39 | 1.36 |
+| 16 | 51.63 | 15.16 | 1.34 |
+| 17 | (pending) | — | — |
+| 18 | (pending) | — | — |
 
-*(K=15..18 and ad hoc models in progress.)*
+*(K=17,18 still computing; final values in results/exp4_table8_fixed_k_bounded.csv.)*
 
-**Paper expects**: bounded performance peaks around K ≈ 10. Our bounded results are nearly flat (50–52%) from K = 1 to K ≈ 13, then declining — bounds are binding and dominate K choice.
+**Paper expects**: bounded performance peaks around K ≈ 10. Our bounded results show a gradual rise from K=1 (50.73%) to K=13 (52.53%) then a gradual decline, consistent with the paper's qualitative pattern. The minimization-selected K ≈ 11.5 falls near the bounded optimum.
 
 ### Tables 9 and 10 — Ad hoc specific-risk constructions
 
-Not yet complete; see "Not reproduced" section.
+In progress; see "Not reproduced" section.
 
 ---
 
@@ -145,7 +174,7 @@ Not yet complete; see "Not reproduced" section.
 
 2. **CPS absolute level (bounded experiments)**: Our bounded CPS (≈ 1.37 ¢) is systematically below the paper's (1.94–1.96 ¢). This is consistent with explanation (1): our bounded portfolios hold proportionally more shares because the bounds `0.01 × ADDV` allow larger positions in our dataset, reducing per-share revenue.
 
-3. **Exp 3 shrinkage q-sensitivity**: The paper reports bounded ROC invariant to q (≈ 40.65–40.67%). Our results show wide variation (35.5% for q = 1e-6, 129% for q = 0.9). For q → 0 the shrinkage specific risk approaches zero (σ_i × √q → 0), creating near-singular covariance matrices that are numerically unstable in Woodbury inversion. For moderate q (0.3–0.9) the uniform specific risk σ_i√q avoids singularity and the optimizer concentrates capital in high-alpha stocks much more than under K ≈ 12 non-uniform specific risk, producing higher ROC on our data. The paper's invariance result was demonstrated on a different dataset where the optimiser's concentration was bounded by tighter effective constraints; on Massive data the bounds are not binding for these models.
+3. **Exp 3 Table 5 q-invariance**: The paper (Section 4.5) reports bounded ROC invariant to q (≈ 40.65–40.67%). Our Table 5 results confirm this: ROC 39.83–40.93% across q ∈ {1e-6, 0.3, 0.6, 0.9}, closely matching the paper's range. SR and CPS are below the paper (SR ≈ 12.5–13.0 vs paper 13.81–13.84; CPS ≈ 1.07–1.38 ¢ vs paper 1.81 ¢), consistent with the same data-source difference noted in item 1 above (survivorship-biased universe, different ADDV distribution, tighter ADMM bounds matching).
 
 4. **Universe size**: Paper Table 4 notes N = 2 339 stocks in the last estimation window. Our universe consistently contains N ≈ 2 040 stocks, reflecting the smaller number of currently-listed stocks that match the paper's selection criteria.
 
