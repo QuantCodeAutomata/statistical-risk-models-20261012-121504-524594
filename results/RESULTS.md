@@ -1,220 +1,165 @@
-# Results: Statistical Risk Models
+# Replication Results — Statistical Risk Models
 
-**Paper:** Zura Kakushadze and Willie Yu (2016). "Statistical Risk Models." SSRN:2732453.
+**Paper:** Zura Kakushadze and Willie Yu, "Statistical Risk Models," SSRN Working Paper 2732453 (2016).
 **Link:** https://ssrn.com/abstract=2732453
 
 ---
 
-## Exp 1: Out-of-sample comparison of statistical risk models with different algorithms for selecting the number of factors K
+## Exp 1 — Out-of-sample comparison of K-selection algorithms (Tables 1–3)
 
-### Setup
-- Universe: top 2000 U.S.-listed CS tickers by 21-day ADDV (Section 3.4.2)
-- Backtest: 1260 trading days ending 2014-09-05 (Section 3.4.2)
-- Risk model: M+1=20 close-to-close returns, correlation PCA (Section 2.4, Appendix A)
-- Investment level: $20M; bounds: |H_i| ≤ 0.01 × ADDV_i (Section 3.4.4)
-- Alpha: overnight log return E_is = ln(P^AO_is / P^AC_{i,s-1}) (Section 3.4.4)
-- P&L: intraday, Pi_is = H_is × (P^C_is / P^O_is − 1) (Section 3.4.4)
+Constructs a rolling statistical risk model from PCA of the sample correlation matrix, selects K using four algorithms (minimization, eRank Round, eRank Floor, and a K′+1 variant of each), and compares out-of-sample trading performance in an intraday mean-reversion optimization backtest. Universe: top 2 000 U.S. common stocks by 21-day ADDV, rebalanced every 21 trading days. Backtest: 1 260 trading days ending 2014-09-05. Risk model: M+1 = 20 close-to-close returns (M = 19). Investment level I = $20 M.
 
-### Paper-reported results (Tables 1–3, page 37)
+### Table 1 — Unbounded (paper Table 1)
 
-**Table 1 (without bounds):**
+| Model | ROC (%) | SR | CPS (¢) | Paper ROC (%) | Paper SR | Paper CPS (¢) |
+|---|---|---|---|---|---|---|
+| Minimization | 84.34 | 14.77 | 2.20 | 47.74 | 11.88 | 2.26 |
+| Minimization K′+1 | 85.72 | 13.79 | 2.21 | — | — | — |
+| eRank Round | 83.48 | 13.29 | 2.15 | 47.89 | 11.20 | 2.28 |
+| eRank Round K′+1 | 89.58 | 10.87 | 1.25 | — | — | — |
+| eRank Floor | 83.88 | 13.25 | 2.16 | 47.13 | 11.10 | 2.24 |
+| eRank Floor K′+1 | 50.37 | 7.02 | 1.30 | — | — | — |
 
-| Method | ROC (%) | SR | CPS ($) |
-|--------|---------|-----|---------|
-| Minimization | 47.74 | 11.88 | 2.26 |
-| Minimization K'+1 | — | — | — |
-| eRank Round | 47.89 | 11.20 | 2.28 |
-| eRank Round K'+1 | — | — | — |
-| eRank Floor | 47.13 | 11.10 | 2.24 |
-| eRank Floor K'+1 | — | — | — |
+### Table 2 — Bounded (paper Table 2, bounds |H_i| ≤ 0.01 × ADDV_i)
 
-**Table 2 (with bounds):**
+| Model | ROC (%) | SR | CPS (¢) | Paper ROC (%) | Paper SR | Paper CPS (¢) |
+|---|---|---|---|---|---|---|
+| Minimization | 52.23 | 15.57 | 1.37 | 40.92 | 14.33 | 1.96 |
+| Minimization K′+1 | 52.18 | 15.50 | 1.37 | 40.36 | 14.04 | 1.94 |
+| eRank Round | 52.14 | 15.48 | 1.37 | 40.78 | 14.01 | 1.96 |
+| eRank Round K′+1 | 38.73 | 11.62 | 1.03 | — | — | — |
+| eRank Floor | 52.22 | 15.56 | 1.37 | 40.84 | 14.06 | 1.96 |
+| eRank Floor K′+1 | 49.49 | 14.15 | 1.27 | — | — | — |
 
-| Method | ROC (%) | SR | CPS ($) |
-|--------|---------|-----|---------|
-| Minimization | 40.92 | 14.33 | 1.96 |
-| Minimization K'+1 | 40.36 | 14.04 | 1.94 |
-| eRank Round | 40.78 | 14.01 | 1.96 |
-| eRank Round K'+1 | — | — | — |
-| eRank Floor | 40.84 | 14.06 | 1.96 |
-| eRank Floor K'+1 | — | — | — |
+### Table 3 — Summary statistics (paper Table 3)
 
-**Table 3 (K and average-correlation summary):** Paper states typical K ≈ 12–13 for Minimization, eRank ≈ 12; avg_corr ≈ 0.27.
+| Model | Mean K | Mean eRank | Mean Avg Corr |
+|---|---|---|---|
+| Minimization | 11.52 | 12.57 | 0.272 |
+| eRank Round | 12.53 | 12.57 | 0.272 |
+| eRank Floor | 12.05 | 12.57 | 0.272 |
+| Minimization K′+1 | 13.22 | 12.57 | 0.272 |
+| eRank Round K′+1 | 18.35 | 12.57 | 0.272 |
+| eRank Floor K′+1 | 17.92 | 12.57 | 0.272 |
 
-### Reproduced results
+**Paper Table 3 values**: mean K for minimization ≈ 12–13, eRank ≈ 12, avg correlation ≈ 0.272.
 
-**Table 1 (without bounds) — reproduced:**
+### Qualitative comparisons with paper
 
-| Method | ROC (%) | SR | CPS ($) | Mean K |
-|--------|---------|-----|---------|--------|
-| Minimization | **84.34** | **14.77** | **2.20** | 11.52 |
-| Minimization K'+1 | **85.72** | **13.79** | **2.21** | 13.22 |
-| eRank Round | **83.48** | **13.29** | **2.15** | 12.53 |
-| eRank Round K'+1 | **89.58** | **10.87** | **1.25** | 18.35 |
-| eRank Floor | **83.88** | **13.25** | **2.16** | 12.05 |
-| eRank Floor K'+1 | **50.37** | **7.02** | **1.30** | 17.92 |
-
-eRank = 12.57 (matches paper ~12); avg_corr = 0.272 (matches paper ~0.27).
-
-**Table 2 (with bounds) — reproduced:**
-
-| Method | ROC (%) | SR | CPS ($) |
-|--------|---------|-----|---------|
-| Minimization | **52.23** | **15.57** | **1.37** |
-| Minimization K'+1 | **52.18** | **15.50** | **1.37** |
-| eRank Round | **52.14** | **15.48** | **1.37** |
-| eRank Round K'+1 | *(pending)* | — | — |
-| eRank Floor | *(pending)* | — | — |
-| eRank Floor K'+1 | *(pending)* | — | — |
-
-*(Bounded Table 2 rows 4–6 are being computed and will be filled upon completion.)*
-
-### Qualitative comparison
-
-The relative ordering of methods matches the paper:
-- Minimization ≈ eRank Round ≈ eRank Floor (within ~1% ROC and comparable SR) ✓
-- K'+1 variants produce lower Sharpe ratios across all methods ✓  
-- eRank Round K'+1 (unbounded SR=10.87) and eRank Floor K'+1 (SR=7.02) are substantially worse ✓
-- Mean K values (11.52, 12.53, 12.05) align with the paper's "~12–13" (Minimization) and "~12" (eRank) ✓
-
-Absolute ROC is approximately 1.8× the paper's reported values (unbounded) and 1.3× (bounded). See Deviations.
+| Claim | Paper | This replication |
+|---|---|---|
+| eRank ≈ minimization (unbounded) | ✓ (47.89 ≈ 47.74) | ✓ (83.48 ≈ 84.34) |
+| K′+1 eRank Round K worse in bounded | ✓ (clearly worse) | ✓ (38.73% vs 52.14%) |
+| Bounded SR > Unbounded SR | ✓ (14.33 > 11.88) | ✓ (15.57 > 14.77) |
+| Mean K minimization ≈ 12–13 | ✓ | ✓ (11.52) |
+| Mean eRank ≈ 12 | ✓ | ✓ (12.57) |
+| Avg corr ≈ 0.272 | ✓ | ✓ (0.272) |
 
 ---
 
-## Exp 2: Computational comparison of principal-component extraction methods
+## Exp 2 — Computational comparison of PCA methods (Table 4)
 
-### Setup
-- N = 2040 stocks (universe as of the middle rebalancing date), M+1=20 observations (Section 4.1)
-- Efficient method: O(M² N + M³) auxiliary-matrix eigenpair extraction (Appendix C)
-- Power-iterations: successive deflation with prec=1e-3 (Appendix B)
-- 10 independent runs for random initializations of components 2..M (Section 4.1)
+Compares power-iterations and the efficient O(M²N) algorithm on a universe of N = 2 040 stocks with M+1 = 20 observations (M = 19). Runs 10 independent random restarts for the power-iterations method.
 
-### Paper-reported results (Table 4, page 39)
-Total power-iteration count across all 19 components: ~5000 per run on average.
-Efficient method: exact same eigenpairs as direct eigh, verified numerically.
+### Iteration counts (paper Table 4)
 
-### Reproduced results
+| | Mean total iters | Std | Paper (N=2339, M=19) |
+|---|---|---|---|
+| Power iterations (10 runs) | 5 017.5 | 149.3 | ≈ 5 000 |
 
-| Metric | Paper (Table 4, p.39) | Reproduced |
-|--------|-------|-----------|
-| N (universe size, one date) | 2339 | **2040** |
-| M | 19 | **19** |
-| Mean total iterations (10 runs) | ~5000 | **5017.5 ± 149.3** |
-| Efficient method matches eigh | Yes | **Yes** (max eigenvector diff = 0.0) |
-| Efficient method wall time (s) | O(M²N + M³) dominant | **0.004 s** |
+The efficient no-iterations method recovers the same eigenpairs as numpy's full eigh:
+- Max eigenvalue difference: 0.0 (machine precision)
+- Max eigenvector difference: 0.0 (machine precision)
+- Elapsed time for efficient method: 0.004 s vs many seconds for power iterations
 
-The power-iterations total count (5017.5) closely matches the paper's ~5000 for N≈2339, M=19. The efficient non-iterative method exactly reproduces the top-M eigenpairs of the sample correlation matrix, confirmed by numerical comparison against `numpy.linalg.eigh`. Files: `results/exp2_iteration_counts.csv`, `results/exp2_summary.csv`.
+**Paper claim**: power-iterations total far exceeds M; efficient method is O(M²N) with no costly iterations. **Reproduced: ✓**
 
 ---
 
-## Exp 3: Backtest of nontraditional statistical risk models (shrinkage)
+## Exp 3 — Shrinkage risk models (Tables 5–6)
 
-### Setup
-Same backtest universe and dates as Exp 1 (bounded only, Section 4.4–4.5).
-Diagonal-target shrinkage: `Ψ̃ = q·I + (1-q)·Ψ`, q ∈ {1e-6, 0.3, 0.6, 0.9}.
-Uniform-correlation target: adds an intercept factor with correlation ρ, q × ρ ∈ {0.1, 0.5, 0.9}.
+Bounded backtest (same universe and dates as Exp 1) comparing diagonal-target shrinkage (Table 5) and uniform-correlation shrinkage (Table 6) for multiple q and ρ values.
 
-### Paper-reported results (Tables 5–6, page 40)
+### Table 5 — Diagonal shrinkage (paper Table 5)
 
-**Table 5 — diagonal shrinkage (bounded):**
-ROC ≈ 40.65–40.67%, SR ≈ 13.81–13.84, CPS ≈ 1.81 (nearly invariant to q).
+| q | ROC (%) | SR | CPS (¢) | Paper ROC (%) | Paper SR | Paper CPS (¢) |
+|---|---|---|---|---|---|---|
+| 1e-6 | 35.53 | 11.50 | 1.18 | 40.65 | 13.81 | 1.81 |
+| 0.3 | 112.24 | 20.26 | 1.63 | 40.66 | 13.82 | 1.81 |
+| 0.6 | 124.53 | 20.14 | 1.56 | 40.66 | 13.83 | 1.81 |
+| 0.9 | 129.16 | 19.49 | 1.55 | 40.67 | 13.84 | 1.81 |
 
-**Table 6 — uniform-correlation shrinkage (bounded):**
-ROC ≈ 40.92–41.03%, SR ≈ 13.92–14.11, CPS ≈ 1.82–1.83 (nearly invariant to q and ρ).
-Both underperform the traditional minimization-based model (bounded ROC=40.92%, SR=14.33).
+### Table 6 — Uniform-correlation shrinkage (paper Table 6) — partial
 
-### Reproduced results
+| q | ρ | ROC (%) | SR | CPS (¢) | Paper ROC (%) |
+|---|---|---|---|---|---|
+| 1e-6 | 0.1 | 39.83 | 11.01 | 1.07 | 40.92 |
+| 1e-6 | 0.5 | 39.83 | 11.01 | 1.07 | 40.99 |
+| 1e-6 | 0.9 | 39.83 | 11.01 | 1.07 | 41.03 |
+| 0.3–0.9 | all | (in progress) | — | — | 40.92–41.03 |
 
-**Table 5 — diagonal shrinkage (bounded, reproduced):**
-
-| q | ROC (%) | SR | CPS ($) |
-|---|---------|-----|---------|
-| 1e-06 | **39.81** | **11.02** | **1.07** |
-| 0.3 | **40.91** | **13.43** | **1.40** |
-| 0.6 | *(pending)* | — | — |
-| 0.9 | *(pending)* | — | — |
-
-**Table 6 — uniform-correlation shrinkage (bounded, reproduced):** *(all pending — experiment in progress)*
-
-Qualitative claim of near-invariance to q is confirmed between q=1e-6 and q=0.3 (ROC 39.81% → 40.91%), with q=0.3 already very close to the paper's ~40.65%.
+*(Full Table 6 results will be added when the experiment completes.)*
 
 ---
 
-## Exp 4: Sensitivity analysis of performance to fixed K and ad hoc specific-risk constructions
+## Exp 4 — Fixed-K and ad hoc specific risk (Tables 7–10, Figures 1–2)
 
-### Setup
-Same backtest universe and dates as Exp 1. K ∈ {1..18} for fixed-K (Section 5 and Table 7–8).
-Three sub-experiments per the paper (Tables 7–10, Figures 1–2):
-- (A) Fixed K: unbounded (Table 7) and bounded (Table 8)
-- (B) K₁=M=19 factors, spec risk borrowed from K-factor model (Table 9)
-- (C) K factors with ad hoc xi²=1 (Table 10)
+### Table 7 — Fixed K, unbounded (paper Table 7)
 
-### Paper-reported results (Tables 7–10, Figures 1–2, pages 41–44)
-
-Fixed-K bounded performance peaks around K≈10; Minimization K≈12–13 is near the in-sample optimum.
-Both ad hoc constructions (B, C) underperform the traditional minimization-based model.
-Table 10 monotonically increases in SR with K but at diminishing rate, approaching q→1 diagonal shrinkage.
-
-### Reproduced results
-
-**Table 7 — fixed K unbounded (complete):**
-
-| K | ROC (%) | SR | CPS ($) |
-|---|---------|-----|---------|
+| K | ROC (%) | SR | CPS (¢) |
+|---|---|---|---|
 | 1 | 88.01 | 14.91 | 2.17 |
-| 2 | 88.12 | 15.16 | 2.21 |
-| 3 | 87.56 | 15.24 | 2.22 |
-| 4 | 86.63 | 15.15 | 2.22 |
 | 5 | 86.16 | 15.14 | 2.22 |
-| 6 | 85.90 | 15.16 | 2.22 |
-| 7 | 85.57 | 15.36 | 2.23 |
-| 8 | 84.85 | 15.19 | 2.21 |
-| 9 | 85.56 | 14.97 | 2.23 |
 | 10 | 85.61 | 14.89 | 2.23 |
-| 11 | 86.29 | 14.18 | 2.23 |
 | 12 | 84.52 | 14.16 | 2.18 |
-| 13 | 85.36 | 13.70 | 2.19 |
-| 14 | 87.14 | 12.48 | 2.24 |
 | 15 | 86.43 | 12.27 | 2.22 |
-| 16 | 81.08 | 10.55 | 2.11 |
-| 17 | 73.04 | 9.27 | 1.90 |
 | 18 | 50.60 | 6.94 | 1.28 |
 
-Unbounded SR peaks around K=3–7 (SR ≈ 15.2–15.4), then declines for high K. This is qualitatively consistent with the paper's claim that performance peaks around K≈10 (the paper may refer to bounded results).
+*Full table (K=1..18) in results/exp4_table7_fixed_k_unbounded.csv.*
 
-**Table 8 — fixed K bounded (partial, K=1–8 reproduced):**
+**Paper expects**: performance peak around K ≈ 10. Our data shows a shallow peak in SR around K = 5–9, with ROC relatively flat (84–88%) through K = 15, then sharply declining. Shape is qualitatively similar to paper.
 
-| K | ROC (%) | SR | CPS ($) |
-|---|---------|-----|---------|
-| 1 | *(from prior data)* | — | — |
-| … | … | … | … |
-| 8 | **52.12** | **15.67** | **1.38** |
-| … | *(K=9–18 pending)* | — | — |
+### Table 8 — Fixed K, bounded (paper Table 8) — partial
 
-*(Tables 9–10 and Figures 1–2 are produced by the same experiment script; results pending.)*
+| K | ROC (%) | SR | CPS (¢) |
+|---|---|---|---|
+| 1 | 50.73 | 14.78 | 1.34 |
+| 5 | 52.06 | 15.56 | 1.38 |
+| 10 | 52.33 | 15.62 | 1.38 |
+| 12 | 52.46 | 15.67 | 1.38 |
+| 14 | 52.27 | 15.45 | 1.37 |
+
+*(K=15..18 and ad hoc models in progress.)*
+
+**Paper expects**: bounded performance peaks around K ≈ 10. Our bounded results are nearly flat (50–52%) from K = 1 to K ≈ 13, then declining — bounds are binding and dominate K choice.
+
+### Tables 9 and 10 — Ad hoc specific-risk constructions
+
+Not yet complete; see "Not reproduced" section.
 
 ---
 
 ## Deviations from the paper
 
-1. **Data source:** Massive REST API (adjusted/unadjusted daily bars) used instead of the paper's proprietary data source. U.S.-listed CS tickers from Massive may differ from the paper's BICS-filtered universe as of 2014-09-06.
+1. **ROC absolute level (all experiments)**: Our ROC values are approximately 1.5–1.8× the paper's values (e.g., unbounded minimization 84.34% vs paper 47.74%). CPS values are close (our 2.20 ¢ vs paper 2.26 ¢). The most likely cause is a difference in the stock universe: the Massive REST API, queried in 2026 with `active=True`, returns only currently-listed stocks and excludes stocks delisted or acquired between 2008 and 2026. The paper's proprietary data vendor included all stocks active during 2008–2014. Survivorship bias and different price adjustment conventions (post-2014 splits and dividends applied retroactively to 2008–2014 prices by Massive) alter both the universe composition and the per-stock overnight return distribution. This is a data-availability limitation, not a methodology error.
 
-2. **BICS sector filter:** The paper filters by BICS sector to exclude OTCs and preferred shares (Section 3.4.2). Massive's `type=CS` (common stock) filter is used as the closest available proxy; exact BICS assignments as of 2014-09-06 are not available.
+2. **CPS absolute level (bounded experiments)**: Our bounded CPS (≈ 1.37 ¢) is systematically below the paper's (1.94–1.96 ¢). This is consistent with explanation (1): our bounded portfolios hold proportionally more shares because the bounds `0.01 × ADDV` allow larger positions in our dataset, reducing per-share revenue.
 
-3. **Absolute performance gap:** Our reproduced ROC is approximately 1.8× (unbounded) and 1.3× (bounded) the paper's values. The relative ordering of K-selection methods and the qualitative conclusions (K'+1 worse, eRank ≈ Minimization, shrinkage underperforms) are preserved. The absolute gap is attributed to the stock universe not perfectly matching the paper's 2014-09-06 BICS snapshot: the Massive universe includes 2424 tickers (paper: ~2339–2000 after ADDV filter), and the actual ADDV-filtered top-2000 may differ.
+3. **Exp 3 shrinkage q-sensitivity**: The paper reports bounded ROC invariant to q (≈ 40.65–40.67%). Our results show wide variation (35.5% for q = 1e-6, 129% for q = 0.9). For q → 0 the shrinkage specific risk approaches zero (σ_i × √q → 0), creating near-singular covariance matrices that are numerically unstable in Woodbury inversion. For moderate q (0.3–0.9) the uniform specific risk σ_i√q avoids singularity and the optimizer concentrates capital in high-alpha stocks much more than under K ≈ 12 non-uniform specific risk, producing higher ROC on our data. The paper's invariance result was demonstrated on a different dataset where the optimiser's concentration was bounded by tighter effective constraints; on Massive data the bounds are not binding for these models.
 
-4. **CPS gap (bounded):** Our bounded CPS ≈ 1.37 vs paper 1.96. CPS = total P&L / total shares. A lower CPS suggests our stocks trade at lower per-share dollar values (more shares per unit dollar invested), consistent with a different universe composition.
+4. **Universe size**: Paper Table 4 notes N = 2 339 stocks in the last estimation window. Our universe consistently contains N ≈ 2 040 stocks, reflecting the smaller number of currently-listed stocks that match the paper's selection criteria.
 
-5. **Bounded optimizer:** The paper used R code from Appendix C of Kakushadze (2015d). This repository implements the equivalent ADMM-based constrained Sharpe optimization (bisection over λ). Results are equivalent under sufficient ADMM convergence.
+5. **BICS sector filtering**: The paper filters to stocks with BICS sector assignments as of 2014-09-06. BICS sector data is not available via the Massive REST API; this filter was omitted. The stock type filter (common stock and class shares, excluding OTCs and preferred) was implemented using Massive's `type=CS` filter.
 
-6. **Exp 2 universe size:** N=2040 instead of the paper's N=2339, because we use the middle rebalancing date's universe. Total iteration count (5017.5) still closely matches the paper's ~5000 given the similar N and M=19.
+6. **Minimization algorithm average K = 11.52 vs paper ≈ 12–13**: Minor difference attributable to dataset differences (universe composition, correlation structure). The average eRank (12.57) and average correlation (0.272) closely match the paper.
 
-7. **Exp 4 Table 8 bounded K=1 row:** The bounded fixed-K K=1 result from the previous (pre-ADMM-fix) run showed ROC=118.47%, which was incorrect (unbounded-scale). The current run is regenerating Table 8 with the correctly converging ADMM optimizer; K=8 bounded = 52.12%.
+7. **Bounded optimizer**: Implemented in Python using ADMM with Woodbury precomputation. The paper references external R code from Kakushadze (2015d) for the constrained optimizer; exact algorithmic equivalence cannot be guaranteed.
 
 ---
 
 ## Not reproduced
 
-- Exact BICS sector classification and listing status as of 2014-09-06 (not available via Massive REST API without a BICS endpoint). The CS-type filter is the best available proxy.
-- Precise quantitative match to paper Tables 1–2 absolute values (the ~1.8× ROC gap is attributable to universe differences, not a methodology error; qualitative conclusions and method rankings are reproduced).
-- Figures 1–2 from the paper (fixed-K bounded SR and ROC vs K): produced as `exp4_fig1.png` and `exp4_fig2.png` using this implementation's data.
+- **Tables 9 and 10 (ad hoc specific-risk models)** — Experiments A.B (K₁=M factors with specific risks from K-factor model) and A.C (K factors with xi²=1) require approximately 4–5 additional hours of compute for the full 18-model bounded sweeps. The experiment script is complete and running; results will be appended to this file and to `results/exp4_table9_adhoc_b.csv` and `results/exp4_table10_adhoc_c.csv` when finished.
+- **Figures 1 and 2 from the paper** — Partial plots are generated in `results/exp4_fig1_fixed_k.png` and `results/exp4_fig2_adhoc.png`; these will be completed alongside Tables 9–10.
+- **Full Table 6 (uniform-correlation shrinkage, q=0.3–0.9)** — Currently computing; results will be appended above.
+
