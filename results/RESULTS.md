@@ -173,18 +173,24 @@ M+1 factors (M principal components plus one intercept-like uniform-correlation 
 
 ### Table 9 — K₁=M factors with specific risks from K-factor model (paper Table 9), bounded
 
-Adhoc-B model: use all M=19 principal-component factor loadings but set specific risk to that of the K-factor model. Bounded backtest.
+Adhoc-B model: use all M=19 principal-component factor loadings but set specific risk to that of the K-factor model. Bounded backtest. K_spec=1..9 confirmed; K_spec=10..18 computing.
 
-| K_spec | ROC (%) | SR | CPS (¢) | Note |
-|---|---|---|---|---|
-| 1 | 52.42 | 15.99 | 1.39 | confirmed |
-| 2 | 52.45 | 16.05 | 1.39 | confirmed |
-| 3 | 52.47 | 16.07 | 1.39 | confirmed |
-| 4 | 52.43 | 16.04 | 1.39 | confirmed |
-| 5 | 52.50 | 16.02 | 1.39 | confirmed |
-| 6–18 | (computing) | — | — | see `results/exp4_table9_adhoc_b.csv` |
+| K_spec | ROC (%) | SR | CPS (¢) |
+|---|---|---|---|
+| 1 | 52.42 | 15.99 | 1.39 |
+| 2 | 52.45 | 16.05 | 1.39 |
+| 3 | 52.47 | 16.07 | 1.39 |
+| 4 | 52.43 | 16.04 | 1.39 |
+| 5 | 52.50 | 16.02 | 1.39 |
+| 6 | 52.46 | 16.01 | 1.39 |
+| 7 | 52.43 | 16.00 | 1.38 |
+| 8 | 52.36 | 16.00 | 1.38 |
+| 9 | 52.44 | 15.93 | 1.38 |
+| 10–18 | (computing) | — | — |
 
-*Paper expects (Section 5)*: performance peaks around K_spec ≈ 13, confirming that the specific-risk profile from the minimization-selected K drives the out-of-sample performance advantage. K_spec=1..5 values are nearly flat (~52.4–52.5% ROC, ~16.0 SR), consistent with the paper's bounded range; full K_spec=1..18 sweep completes when the running experiment finishes.
+*Full table in `results/exp4_table9_adhoc_b.csv`.*
+
+*Paper expects (Section 5)*: performance peaks around K_spec ≈ 13, confirming that the specific-risk profile from the minimization-selected K drives the out-of-sample performance advantage. K_spec=1..9 are nearly flat (~52.4–52.5% ROC, ~15.9–16.1 SR), consistent with the K=M baseline (~52.2% ROC); the peak is expected around K_spec=13.
 
 ### Table 10 — K factors with specific risk set to in-sample level xi²=1 (paper Table 10), bounded
 
