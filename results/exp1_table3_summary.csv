@@ -1,0 +1,13 @@
+Model,Mean K,Mean eRank,Mean Avg Corr,Bounded
+Minimization,11.52,12.57,0.2716,False
+Minimization K'+1,13.22,12.57,0.2716,False
+eRank Round,12.53,12.57,0.2716,False
+eRank Round K'+1,18.35,12.57,0.2716,False
+eRank Floor,12.05,12.57,0.2716,False
+eRank Floor K'+1,17.92,12.57,0.2716,False
+Minimization,11.52,12.57,0.2716,True
+Minimization K'+1,13.22,12.57,0.2716,True
+eRank Round,12.53,12.57,0.2716,True
+eRank Round K'+1,18.35,12.57,0.2716,True
+eRank Floor,12.05,12.57,0.2716,True
+eRank Floor K'+1,17.92,12.57,0.2716,True
