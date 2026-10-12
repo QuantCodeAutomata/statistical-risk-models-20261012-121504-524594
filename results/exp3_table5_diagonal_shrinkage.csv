@@ -1,5 +1,5 @@
-q,Model,ROC (%),SR,CPS (cents),Total PnL,Total Shares,Days
-1e-06,Diagonal shrinkage,39.83,11.01,1.0688,39830000,,1260
-0.3,Diagonal shrinkage,40.93,12.49,1.2529,40930000,,1260
-0.6,Diagonal shrinkage,40.85,12.95,1.3338,40850000,,1260
-0.9,Diagonal shrinkage,40.6,12.96,1.3793,40600000,,1260
+q,rho,Model,ROC (%),SR,CPS (cents),Total PnL,Total Shares,Days
+1e-06,—,Diagonal shrinkage,39.8304,11.0058,1.0688,39830440.3,3726642010.0,1260
+0.3,—,Diagonal shrinkage,40.9252,12.4926,1.2529,40925154.29,3266556924.0,1260
+0.6,—,Diagonal shrinkage,40.8482,12.9463,1.3338,40848152.51,3062653175.0,1260
+0.9,—,Diagonal shrinkage,40.6023,12.9572,1.3793,40602285.41,2943624087.0,1260
